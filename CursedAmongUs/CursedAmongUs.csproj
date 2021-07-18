@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<Version>0.0.0</Version>
+		<Description>သင်၏တည်ရှိမှုကိုမေးခွန်းထုတ်ရန်အတွက်ပြင်ဆင်ထားပါ</Description>
+		<Authors>KyleSmith</Authors>
+		<Company>Devs-Us</Company>
+		<Copyright>GNU General Public License v3.0</Copyright>
+		<PackageIcon>icon.png</PackageIcon>
+		<RepositoryUrl>https://github.com/KyleSmith0905/Among-Chess</RepositoryUrl>
+		<PackageTags>amongus, among-us, cursed, mod</PackageTags>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<SignAssembly>false</SignAssembly>
+		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+		<OutputType>Library</OutputType>
+		<ApplicationIcon></ApplicationIcon>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<Optimize>true</Optimize>
+	</PropertyGroup>
+
+	<Target Name="Copy" AfterTargets="Build">
+		<Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFiles="$(AmongUs)/BepInEx/plugins/$(AssemblyName)-$(Version).dll" />
+	</Target>
+
+	<ItemGroup>
+		<Reference Include="$(AmongUs)\BepInEx\core\*.dll">
+			<Private>false</Private>
+		</Reference>
+
+		<Reference Include="$(AmongUs)\BepInEx\unhollowed\*.dll">
+			<Private>false</Private>
+		</Reference>
+
+		<Reference Remove="$(AmongUs)\BepInEx\unhollowed\netstandard.dll;$(AmongUs)\BepInEx\unhollowed\Newtonsoft.Json.dll" />
+
+		<Reference Include="$(AmongUs)\BepInEx\plugins\Reactor.dll" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\Images\icon.png">
+	    <Pack>True</Pack>
+	    <PackagePath></PackagePath>
+	  </None>
+	</ItemGroup>
+</Project>
