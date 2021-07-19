@@ -14,6 +14,10 @@
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 		<OutputType>Library</OutputType>
 		<ApplicationIcon></ApplicationIcon>
+
+		<GamePlatform>Steam</GamePlatform>
+    	<GameVersion>2021.6.30s</GameVersion>
+    	<GameProvider>Github</GameProvider>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<Optimize>true</Optimize>
