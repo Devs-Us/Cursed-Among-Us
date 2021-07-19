@@ -14,31 +14,27 @@
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 		<OutputType>Library</OutputType>
 		<ApplicationIcon></ApplicationIcon>
+
+		<GamePlatform>Steam</GamePlatform>
+    	<GameVersion>2021.6.30s</GameVersion>
+    	<GameProvider>Github</GameProvider>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<Optimize>true</Optimize>
 	</PropertyGroup>
 
-	<Target Name="Copy" AfterTargets="Build">
-		<Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFiles="$(AmongUs)/BepInEx/plugins/$(AssemblyName)-$(Version).dll" />
-	</Target>
+	<ItemGroup>
+    	<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.10.0" />
+    	<PackageReference Include="Reactor.MSBuild" Version="*" PrivateAssets="all" />
+		<PackageReference Include="Reactor" Version="1.0.0-rc.1" />
+  	</ItemGroup>
+  
+  	<Target Name="Copy" AfterTargets="Build">
+    	<Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(AmongUs)/BepInEx/plugins/" Condition="'$(AmongUs)' != ''" />
+  	</Target>
 
 	<ItemGroup>
-		<Reference Include="$(AmongUs)\BepInEx\core\*.dll">
-			<Private>false</Private>
-		</Reference>
-
-		<Reference Include="$(AmongUs)\BepInEx\unhollowed\*.dll">
-			<Private>false</Private>
-		</Reference>
-
-		<Reference Remove="$(AmongUs)\BepInEx\unhollowed\netstandard.dll;$(AmongUs)\BepInEx\unhollowed\Newtonsoft.Json.dll" />
-
-		<Reference Include="$(AmongUs)\BepInEx\plugins\Reactor.dll" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Include="..\Images\icon.png">
+	  <None Include="..\Images\*.png">
 	    <Pack>True</Pack>
 	    <PackagePath></PackagePath>
 	  </None>
