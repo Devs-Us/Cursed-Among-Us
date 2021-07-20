@@ -6,6 +6,10 @@
 <p align="center">Don't get mad at your friends, get mad at the game.</p>
 
 ---
+# Development
+Try to prioritize tasks on The Skeld. From there we can branch to other maps.
+
+---
 <div align="center">IMAGE OR LOGO HERE</div>
 
 ---

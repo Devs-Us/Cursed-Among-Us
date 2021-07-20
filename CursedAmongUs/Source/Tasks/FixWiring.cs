@@ -8,15 +8,15 @@ namespace CursedAmongUs.Source.Tasks
 	{
 		public static int numWires = 40;
 
+		public static float scalarY = ((1f - 2) / numWires) + 0.47f;
+
 		[HarmonyPatch(nameof(WireMinigame.Begin))]
 		[HarmonyPrefix]
 		static void BeginPrefix(WireMinigame __instance)
 		{
 			Transform ParentAll = GameObject.Find("Main Camera/WireMinigame(Clone)").transform;
 			Transform ParentLeftNode = ParentAll.FindChild("LeftWires").transform;
-			GameObject PrefabLeftNode = ParentLeftNode.FindChild("LeftWireNode").gameObject;
 			Transform ParentRightNode = ParentAll.FindChild("RightWires").transform;
-			GameObject PrefabRightNode = ParentRightNode.FindChild("RightWireNode").gameObject;
 			__instance.ExpectedWires = new sbyte[numWires];
 			WireMinigame.colors = new Color[numWires];
 			__instance.Symbols = new Sprite[numWires];
@@ -25,16 +25,11 @@ namespace CursedAmongUs.Source.Tasks
 			__instance.RightLights = new SpriteRenderer[numWires];
 			__instance.LeftNodes = new Wire[numWires];
 			__instance.RightNodes = new WireNode[numWires];
-			for (int i = 0; i < ParentLeftNode.childCount; i++)
-			{
-				GameObject childLeftNode = ParentLeftNode.GetChild(i).gameObject;
-				if (!ParentLeftNode.GetChild(i).gameObject.name.StartsWith("LeftWireNode")) continue;
-				Object.Destroy(childLeftNode);
-			}
+			Helpers.DestroyObjects(ParentLeftNode);
 			float positionY = 2.25f;
 			for (int i = 0; i < numWires; i++)
 			{
-				GameObject newGameObject = Helpers.BuildWire(PrefabLeftNode, ref positionY);
+				GameObject newGameObject = Helpers.BuildWire(ParentLeftNode.FindChild("LeftWireNode").gameObject, ref positionY);
 				Transform headTransform = newGameObject.transform.FindChild("Head");
 				headTransform.localPosition = new Vector3(0.235f, headTransform.localPosition.y, headTransform.localPosition.z);
 				headTransform.GetComponent<CircleCollider2D>().enabled = true;
@@ -43,17 +38,11 @@ namespace CursedAmongUs.Source.Tasks
 				wireComponent.enabled = true;
 				__instance.LeftNodes[i] = wireComponent;
 			}
-			for (int i = 0; i < ParentRightNode.childCount; i++)
-			{
-				GameObject childRightNode = ParentRightNode.GetChild(i).gameObject;
-				if (!ParentRightNode.GetChild(i).gameObject.name.StartsWith("RightWireNode")) continue;
-				Object.Destroy(childRightNode);
-			}
+			Helpers.DestroyObjects(ParentRightNode);
 			positionY = 2.25f;
 			for (int i = 0; i < numWires; i++)
 			{
-
-				GameObject newGameObject = Helpers.BuildWire(PrefabRightNode, ref positionY);
+				GameObject newGameObject = Helpers.BuildWire(ParentRightNode.FindChild("RightWireNode").gameObject, ref positionY);
 				Transform headTransform = newGameObject.transform.FindChild("electricity_wiresBase1");
 				newGameObject.transform.FindChild("electricity_wiresConnectBase").localScale = new Vector3(8f, 0.5f, 1f);
 				headTransform.localPosition = new Vector3(0.145f, 0f, headTransform.localPosition.z);
@@ -114,6 +103,16 @@ namespace CursedAmongUs.Source.Tasks
 			}
 			newGameObject.transform.FindChild("BaseSymbol").gameObject.active = false;
 			return newGameObject;
+		}
+
+		public static void DestroyObjects(Transform parent)
+		{
+			for (int i = 0; i < parent.childCount; i++)
+			{
+				GameObject childNode = parent.GetChild(i).gameObject;
+				if (!parent.GetChild(i).gameObject.name.Contains("WireNode")) continue;
+				Object.Destroy(childNode);
+			}
 		}
 	}
 }
