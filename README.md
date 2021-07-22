@@ -6,15 +6,15 @@
 <p align="center">Don't get mad at your friends, get mad at the game.</p>
 
 ---
-# Development
-Try to prioritize tasks on The Skeld. From there we can branch to other maps. Tasks should always take in between 1 minutes or 2 minutes long. No patches should be too obvious (like everyone's is 2x smaller').
-
----
-<div align="center">IMAGE OR LOGO HERE</div>
+# Development (Delete on release)
+Try to prioritize tasks on The Skeld. From there we can branch to other maps. Tasks should always take in between 1 minutes or 2 minutes long. No patches should be too obvious (like everyone's is 2x smaller).
 
 ---
 # About
 Ever wondered what Among Us would look like if demons made it? Fortunately for you, this mod came straight from hell to fulfill your mightiest desires. This mod is a maven of agonizing players with exacerbated tasks and other aggravating changes.
+
+
+<div align="center">IMAGE OR LOGO HERE</div>
 
 ---
 # Changes
@@ -25,6 +25,7 @@ Cursed Among Us changes these things:
 	- Card Slide
 	- Upload Data
 	- Unlock Manifold
+	- Leaf
 
 ---
 # Feedback
