@@ -7,7 +7,7 @@
 
 ---
 # Development
-Try to prioritize tasks on The Skeld. From there we can branch to other maps.
+Try to prioritize tasks on The Skeld. From there we can branch to other maps. Tasks should always take in between 1 minutes or 2 minutes long. No patches should be too obvious (like everyone's is 2x smaller').
 
 ---
 <div align="center">IMAGE OR LOGO HERE</div>
@@ -46,5 +46,6 @@ Contributors By Title: *Join the list by contributing*
 | Person| Title|
 |:---|:---|
 | KyleSmith0905| Main Maintainer|
+| amsyarasyiq| Contributor|
 
 ---

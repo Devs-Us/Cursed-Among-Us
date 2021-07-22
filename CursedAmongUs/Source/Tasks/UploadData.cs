@@ -15,7 +15,6 @@ namespace CursedAmongUs.Source.Tasks
 		[HarmonyPrefix]
 		static bool DoPercentPrefix(UploadDataGame __instance)
 		{
-			Debug.logger.Log("percent");
 			return false;
 		}
 
@@ -23,11 +22,9 @@ namespace CursedAmongUs.Source.Tasks
 		[HarmonyPrefix]
 		static bool DoTextPrefix(UploadDataGame __instance)
 		{
-			Debug.logger.Log("12");
 			UploadDataCustom customComponent = __instance.gameObject.AddComponent<UploadDataCustom>();
 			__instance.gameObject.active = true;
 			customComponent.enabled = true;
-			Debug.logger.Log("123");
 			return false;
 		}
 	}
@@ -50,8 +47,7 @@ namespace CursedAmongUs.Source.Tasks
 		public void UploadData()
 		{
 			UploadDataGame uploadData = gameObject.GetComponent<UploadDataGame>();
-			Debug.logger.Log(TotalTime.ToString());
-			if (StartTime - TotalTime < 57) TotalTime--;
+			if (StartTime - TotalTime < 47) TotalTime--;
 			else if (TotalCounter > 0)
 			{
 				TotalCounter--;
