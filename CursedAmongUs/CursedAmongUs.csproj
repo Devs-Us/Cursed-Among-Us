@@ -39,4 +39,8 @@
 	    <PackagePath></PackagePath>
 	  </None>
 	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Resources\*" />
+	</ItemGroup>
 </Project>

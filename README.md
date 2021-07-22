@@ -21,7 +21,10 @@ Ever wondered what Among Us would look like if demons made it? Fortunately for y
 **Want to experience this for yourself? Then wait to read this:**
 Cursed Among Us changes these things:
 - Tasks
-	- Wires
+	- Fix Wires
+	- Card Slide
+	- Upload Data
+	- Unlock Manifold
 
 ---
 # Feedback
@@ -41,6 +44,7 @@ Software Used:
 | Harmony| C# patching library| [Github page](https://github.com/pardeike/Harmony "Github Page"), [Documentation](https://harmony.pardeike.net/ "Documentation")|
 | BepInEx| Unity patching library| [Github page](https://github.com/BepInEx/BepInEx "Github Page")|
 | Reactor| Among Us modding API| [Github page](https://github.com/NuclearPowered/Reactor "Github Page"), [Documentation](https://docs.reactor.gg/ "Documentation"), [Discord](https://discord.com/invite/pKM7pbufP3 "Discord Server")|
+
 Contributors By Title: *Join the list by contributing*
 
 | Person| Title|
