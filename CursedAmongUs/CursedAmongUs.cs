@@ -1,5 +1,4 @@
 ﻿using BepInEx;
-using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using HarmonyLib;
 using Reactor;
@@ -13,7 +12,7 @@ namespace CursedAmongUs
 	[BepInDependency(ReactorPlugin.Id)]
 	public class CursedAmongUs : BasePlugin
 	{
-		public const string Version = "v0.0.2";
+		public const System.String Version = "v0.0.2";
 
 		public Harmony Harmony { get; } = new Harmony("DevsUs.CusedAmongUs");
 
@@ -28,7 +27,7 @@ namespace CursedAmongUs
 	{
 		public static void Postfix()
 		{
-			var gameObject = GameObject.Find("CursedAmongUs");
+			GameObject gameObject = GameObject.Find("CursedAmongUs");
 			if (gameObject != null) return;
 			ClassInjector.RegisterTypeInIl2Cpp<Source.Tasks.UploadDataCustom>();
 			GameObject cursedObject = new GameObject("CursedAmongUs"); // For Future, just make a component.cs and add it to this

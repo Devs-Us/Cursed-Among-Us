@@ -1,17 +1,18 @@
-﻿using HarmonyLib;
+﻿using System;
+using HarmonyLib;
 
 namespace CursedAmongUs.Source
 {
 	public static class CursedGameData
 	{
-		public static int WiresNum = 0;
+		public static Int32 WiresNum = 0;
 
 		[HarmonyPatch(typeof(ShipStatus))]
-		static class ShipStatusPatch
+		private static class ShipStatusPatch
 		{
 			[HarmonyPatch(nameof(ShipStatus.Start))]
 			[HarmonyPrefix]
-			static void StartPrefix()
+			private static void StartPrefix()
 			{
 				WiresNum = 0;
 			}

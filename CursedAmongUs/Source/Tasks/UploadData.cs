@@ -1,26 +1,22 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using HarmonyLib;
 using UnityEngine;
 
 namespace CursedAmongUs.Source.Tasks
 {
 	[HarmonyPatch(typeof(UploadDataGame))]
-	class UploadDataPatch
+	internal class UploadDataPatch
 	{
-		// I must override the function I believe
 		[HarmonyPatch(nameof(UploadDataGame.DoPercent))]
 		[HarmonyPrefix]
-		static bool DoPercentPrefix(UploadDataGame __instance)
+		private static Boolean DoPercentPrefix()
 		{
 			return false;
 		}
 
 		[HarmonyPatch(nameof(UploadDataGame.DoText))]
 		[HarmonyPrefix]
-		static bool DoTextPrefix(UploadDataGame __instance)
+		private static Boolean DoTextPrefix(UploadDataGame __instance)
 		{
 			UploadDataCustom customComponent = __instance.gameObject.AddComponent<UploadDataCustom>();
 			__instance.gameObject.active = true;
@@ -29,11 +25,11 @@ namespace CursedAmongUs.Source.Tasks
 		}
 	}
 
-	class UploadDataCustom : MonoBehaviour
+	internal class UploadDataCustom : MonoBehaviour
 	{
-		private int StartTime = IntRange.Next(604800 / 6, 604800);
-		private int TotalTime;
-		private int TotalCounter;
+		private readonly Int32 StartTime = IntRange.Next(604800 / 6, 604800);
+		private Int32 TotalTime;
+		private Int32 TotalCounter;
 
 		public UploadDataCustom(IntPtr ptr) : base(ptr) { }
 
@@ -47,7 +43,10 @@ namespace CursedAmongUs.Source.Tasks
 		public void UploadData()
 		{
 			UploadDataGame uploadData = gameObject.GetComponent<UploadDataGame>();
-			if (StartTime - TotalTime < 47) TotalTime--;
+			if (StartTime - TotalTime < 47)
+			{
+				TotalTime--;
+			}
 			else if (TotalCounter > 0)
 			{
 				TotalCounter--;
@@ -58,11 +57,11 @@ namespace CursedAmongUs.Source.Tasks
 				CancelInvoke();
 				uploadData.running = false;
 			}
-			int days = TotalTime / 86400;
-			int hours = TotalTime / 3600 % 24;
-			int minutes = TotalTime / 60 % 60;
-			int seconds = TotalTime % 60;
-			string dateString;
+			Int32 days = TotalTime / 86400;
+			Int32 hours = TotalTime / 3600 % 24;
+			Int32 minutes = TotalTime / 60 % 60;
+			Int32 seconds = TotalTime % 60;
+			String dateString;
 			if (days > 0) dateString = $"{days}d {hours}hr {minutes}m {seconds}s";
 			else if (hours > 0) dateString = $"{hours}hr {minutes}m {seconds}s";
 			else if (minutes > 0) dateString = $"{minutes}m {seconds}s";
