@@ -19,10 +19,10 @@ namespace CursedAmongUs.Source.Tasks
 			NumWires = WiresOrder[CursedGameData.WiresNum];
 			ScalarY = NumWires < 12 ? 1f : (8f / NumWires) + 0.3f;
 			Transform ParentAll = GameObject.Find("Main Camera/WireMinigame(Clone)").transform;
-			__instance.ExpectedWires = new global::System.SByte[NumWires];
+			__instance.ExpectedWires = new SByte[NumWires];
 			WireMinigame.colors = new Color[NumWires];
 			__instance.Symbols = new Sprite[NumWires];
-			__instance.ActualWires = new global::System.SByte[NumWires];
+			__instance.ActualWires = new SByte[NumWires];
 			__instance.LeftLights = new SpriteRenderer[NumWires];
 			__instance.RightLights = new SpriteRenderer[NumWires];
 			__instance.LeftNodes = new Wire[NumWires];

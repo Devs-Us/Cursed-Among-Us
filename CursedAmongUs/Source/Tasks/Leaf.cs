@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace CursedAmongUs.Source.Tasks
 {
-	internal static class LeafPatch
+	static class LeafPatch
 	{
 		[HarmonyPatch(typeof(Minigame))]
-		private static class MinigamePatch
+		static class MinigamePatch
 		{
-			[HarmonyPatch(nameof(Minigame.Begin))]
+			[HarmonyPatch(nameof(Minigame.Begin), typeof(PlayerTask))]
 			[HarmonyPostfix]
-			private static void BeginPostfix(Minigame __instance, PlayerTask task)
+			static void BeginPostfix(Minigame __instance, PlayerTask task)
 			{
-				if (task.name == "CleanO2Filter(Clone)" && __instance.MyNormTask != null)
+				if (task.name == "CleanO2Filter(Clone)")
 				{
 					__instance.MyNormTask.taskStep = 0;
 					__instance.MyNormTask.MaxStep = 1000;
