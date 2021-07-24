@@ -30,8 +30,10 @@ namespace CursedAmongUs
 			GameObject gameObject = GameObject.Find("CursedAmongUs");
 			if (gameObject != null) return;
 			ClassInjector.RegisterTypeInIl2Cpp<Source.Tasks.UploadDataCustom>();
+			ClassInjector.RegisterTypeInIl2Cpp<Source.CursedGameData>();
 			GameObject cursedObject = new GameObject("CursedAmongUs"); // For Future, just make a component.cs and add it to this
 			Object.DontDestroyOnLoad(cursedObject);
+			_ = cursedObject.AddComponent<Source.CursedGameData>();
 		}
 	}
 }
