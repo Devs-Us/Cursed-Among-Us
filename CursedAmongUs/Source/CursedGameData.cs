@@ -1,9 +1,10 @@
 ﻿using System;
 using HarmonyLib;
+using UnityEngine;
 
 namespace CursedAmongUs.Source
 {
-	public static class CursedGameData
+	public class CursedGameData : MonoBehaviour
 	{
 		public static Int32 WiresNum = 0;
 
