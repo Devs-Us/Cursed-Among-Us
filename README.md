@@ -13,8 +13,12 @@ Try to prioritize tasks on The Skeld. From there we can branch to other maps. Ta
 # About
 Ever wondered what Among Us would look like if demons made it? Fortunately for you, this mod came straight from hell to fulfill your mightiest desires. This mod is a maven of agonizing players with exacerbated tasks and other aggravating changes.
 
+<p align="center">
+  <img width="300" alt="Cursed Among Us" src="https://user-images.githubusercontent.com/82509942/126889766-63a85498-0216-4263-aeff-6fbc0431f552.png">
+</p>
 
-<div align="center">IMAGE OR LOGO HERE</div>
+
+
 
 ---
 # Changes
