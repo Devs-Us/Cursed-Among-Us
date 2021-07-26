@@ -22,7 +22,7 @@ jobs:
           verbosity: Diagnostic
 
 # Change CursedAmongUs to the name of your project if you want CI artifacts
-#      - uses: actions/upload-artifact@v2
-#        with:
-#          name: CursedAmongUs.dll
-#          path: CursedAmongUs/bin/Release/netstandard2.1/CursedAmongUs.dll
+      - uses: actions/upload-artifact@v2
+        with:
+          name: CursedAmongUs.dll
+          path: CursedAmongUs/bin/Release/netstandard2.1/CursedAmongUs.dll
