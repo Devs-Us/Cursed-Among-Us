@@ -12,7 +12,7 @@
 # About
 Ever wondered what Among Us would look like if demons made it? Fortunately for you, this mod came straight from hell to fulfill your mightiest desires. This mod is a maven of agonizing players with exacerbated tasks and other aggravating changes.
 
-Join our Discord to play with others: https://discord.com/invite/rfmrQPshrc
+Join our Discord to play with others: https://discord.gg/dccRRY8dcR
 ![Gameplay Footage](/Images/aboutPage.png)
 
 ---
@@ -29,7 +29,7 @@ If you want to use it as an extension to another mod, follow these steps:
 - Copy the dll into `{Among Us Folder}/BepInEx/plugins`.
 
 ### **Trolling Friends**
-If you want to surprise your friends, send the latest zip from this [Google Drive](https://drive.google.com/drive/folders/1SLcoJ6XhzYmBinpsog5hYUlj2m8nAAQn) link to your friends. It is Cursed Among Us disguised as and shipped with Devs-us' Epic Colors.
+If you want to surprise your friends, send the latest zip from this [Google Drive](https://drive.google.com/drive/folders/1iduUzg6brT4uGHLcSO39O-e9J0P1elYD) link to your friends. It is Cursed Among Us disguised as and shipped with Devs-us' Epic Colors.
 
 ---
 # Changes
