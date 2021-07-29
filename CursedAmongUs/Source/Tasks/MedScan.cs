@@ -5,8 +5,6 @@ namespace CursedAmongUs.Source.Tasks
 {
 	internal class CursedMedScan
 	{
-		private static Int32 slowerMedbay;
-
 		public static (String id, Int32 bloodType) PlayerData = new();
 
 		[HarmonyPatch(typeof(MedScanMinigame))]
@@ -25,7 +23,6 @@ namespace CursedAmongUs.Source.Tasks
 					}
 					PlayerData.bloodType = new Random().Next(0, 8);
 				}
-				slowerMedbay = 0;
 				__instance.completeString = "Player Identity: " + Palette.ColorNames[PlayerControl.LocalPlayer.Data.ColorId] + "Player" + PlayerData.id +
 					"\nIdentification Number: " + PlayerData.id +
 					"\nPlayer Name: " + PlayerControl.LocalPlayer.nameText.text +
