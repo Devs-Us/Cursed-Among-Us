@@ -17,7 +17,7 @@ namespace CursedAmongUs.Source.Tasks
 				cursor.transform.SetParent(__instance.transform);
 				cursor.layer = 4;
 				CircleCollider2D circleCollider2D = cursor.AddComponent<CircleCollider2D>();
-				circleCollider2D.radius = 0.325f;
+				circleCollider2D.radius = 0.25f;
 				WeaponsCustom weaponsCustom = cursor.AddComponent<WeaponsCustom>();
 				weaponsCustom.weaponsMinigame = __instance;
 			}

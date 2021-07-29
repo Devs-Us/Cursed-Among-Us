@@ -12,9 +12,9 @@ namespace CursedAmongUs
 	[BepInDependency(ReactorPlugin.Id)]
 	public class CursedAmongUs : BasePlugin
 	{
-		public const System.String Version = "v0.0.2";
+		public const System.String Version = "v1.0.0";
 
-		public Harmony Harmony { get; } = new Harmony("DevsUs.CusedAmongUs");
+		public Harmony Harmony { get; } = new Harmony("DevsUs.CursedAmongUs");
 
 		public override void Load()
 		{

@@ -43,7 +43,7 @@ namespace CursedAmongUs.Source.Tasks
 			[HarmonyPostfix]
 			private static void FixedUpdatePostfix(LeafMinigame __instance)
 			{
-				__instance.transform.FindChild("Pointer").position = __instance.myController.HoverPosition;
+				__instance.transform.FindChild("cursor").position = __instance.myController.HoverPosition;
 			}
 		}
 	}
