@@ -12,7 +12,7 @@
 # About
 Ever wondered what Among Us would look like if demons made it? Fortunately for you, this mod came straight from hell to fulfill your mightiest desires. This mod is a maven of agonizing players with exacerbated tasks and other aggravating changes.
 
-Join our Discord to play with others: https://discord.com/invite/rfmrQPshrc
+Join our Discord to play with others: https://discord.com/invite/rfmrQPshrc\
 ![Gameplay Footage](/Images/aboutPage.png)
 
 ---
@@ -27,19 +27,14 @@ Cursed Among Us changes these things:
 	- Unlock Manifold
 	- Upload Data
 	- Vent Cleaning
+	- Weapons
 - Others
 	- Colors
 	- Blocked Words
 
 ---
 # Feedback
-If you have any feedback regarding the game, this may include: 
-- Bugs
-- Suggestions
-- Support
-- Inquiries
-
-Please contact us by joining the [Devs-Us Discord server](https://discord.gg/dccRRY8dcR "Discord Server"). We are not bothered by any inquiries made in good-faith.
+If you have any feedback regarding the game, please contact us by joining the [Devs-Us Discord server](https://discord.gg/dccRRY8dcR "Discord Server"). Suggestions could be We are not bothered by any inquiries made in good-faith.
 
 ---
 # Credit

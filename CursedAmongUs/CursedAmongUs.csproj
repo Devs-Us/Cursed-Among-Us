@@ -14,7 +14,7 @@
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 		<OutputType>Library</OutputType>
 		<ApplicationIcon></ApplicationIcon>
-
+		<LangVersion>9.0</LangVersion>
 		<GamePlatform>Steam</GamePlatform>
     	<GameVersion>2021.6.30s</GameVersion>
     	<GameProvider>Github</GameProvider>

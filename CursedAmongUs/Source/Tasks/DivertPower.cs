@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using Il2CppSystem.Text;
@@ -7,16 +6,26 @@ using UnityEngine;
 
 namespace CursedAmongUs.Source.Tasks
 {
-	class DivertPower
+	internal class DivertPower
 	{
-		static Boolean IsIntermission = false;
+		private static Boolean IsIntermission = false;
 
+		[HarmonyPatch(typeof(ShipStatus))]
+		private class ShipStatusPatch
+		{
+			[HarmonyPatch(nameof(ShipStatus.Start))]
+			[HarmonyPrefix]
+			private static void StartPrefix()
+			{
+				IsIntermission = false;
+			}
+		}
 		[HarmonyPatch(typeof(NormalPlayerTask))]
-		static class NormalPlayerTaskPatch
+		private static class NormalPlayerTaskPatch
 		{
 			[HarmonyPatch(nameof(NormalPlayerTask.NextStep))]
 			[HarmonyPostfix]
-			static void NextStepPostfix(NormalPlayerTask __instance)
+			private static void NextStepPostfix(NormalPlayerTask __instance)
 			{
 				if (__instance.TaskType != TaskTypes.DivertPower) return;
 				if (__instance.taskStep == 2)
@@ -37,11 +46,11 @@ namespace CursedAmongUs.Source.Tasks
 		}
 
 		[HarmonyPatch(typeof(DivertPowerTask))]
-		static class DivertPowerTaskPatch
+		private static class DivertPowerTaskPatch
 		{
 			[HarmonyPatch(nameof(DivertPowerTask.AppendTaskText))]
 			[HarmonyPrefix]
-			static Boolean AppendTaskTextPrefix(DivertPowerTask __instance, StringBuilder sb)
+			private static Boolean AppendTaskTextPrefix(DivertPowerTask __instance, StringBuilder sb)
 			{
 				if (__instance.TaskStep == 0) _ = sb.AppendLine("Electrical: Divert Power (0/2)");
 				else if (__instance.TaskStep == 1) _ = sb.AppendLine("<color=#FFFF00FF>???????: Accept Diverted Power (1/2)</color>");
@@ -52,27 +61,29 @@ namespace CursedAmongUs.Source.Tasks
 		}
 
 		[HarmonyPatch(typeof(DivertPowerMinigame))]
-		static class DivertPowerMinigamePatch
+		private static class DivertPowerMinigamePatch
 		{
 			[HarmonyPatch(nameof(DivertPowerMinigame.Begin))]
 			[HarmonyPrefix]
-			static void BeginPrefix(DivertPowerMinigame __instance)
+			private static void BeginPrefix(DivertPowerMinigame __instance)
 			{
-				System.Random random = new System.Random();
+				System.Random random = new();
 				__instance.Sliders = __instance.Sliders.OrderBy(x => random.Next()).ToArray();
 			}
 		}
 
 		[HarmonyPatch(typeof(MapTaskOverlay))]
-		static class MapBehaviourPatch
+		private static class MapBehaviourPatch
 		{
 			[HarmonyPatch(nameof(MapTaskOverlay.Show))]
 			[HarmonyPostfix]
-			static void ShowPostfix(MapTaskOverlay __instance)
+			private static void ShowPostfix(MapTaskOverlay __instance)
 			{
 				if (!IsIntermission)
 				{
+					Debug.logger.Log("Intermission1");
 					if (__instance.transform.childCount <= 100) return;
+					Debug.logger.Log("Intermission2");
 					for (Int32 i = 0; i < __instance.transform.childCount; i++)
 					{
 						Transform child = __instance.transform.GetChild(i);

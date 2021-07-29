@@ -22,7 +22,7 @@ namespace CursedAmongUs.Source.Tasks
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			Stream stream = assembly.GetManifestResourceStream("CursedAmongUs.Resources.UnlockManifold.png");
 			Byte[] textureBytes = stream.ReadFully();
-			Texture2D texture = new Texture2D(2, 2, TextureFormat.ARGB32, false);
+			Texture2D texture = new(2, 2, TextureFormat.ARGB32, false);
 			ICallLoadImage = IL2CPP.ResolveICall<d_LoadImage>("UnityEngine.ImageConversion::LoadImage");
 			Il2CppStructArray<Byte> il2CPPArray = textureBytes;
 			_ = ICallLoadImage.Invoke(texture.Pointer, il2CPPArray.Pointer, false);

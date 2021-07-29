@@ -1,19 +1,19 @@
 ﻿using System;
-using UnityEngine;
 using HarmonyLib;
+using UnityEngine;
 
 namespace CursedAmongUs.Source.Tasks
 {
-	class CursedWeapons
+	internal class CursedWeapons
 	{
 		[HarmonyPatch(typeof(WeaponsMinigame))]
-		static class WeaponsMinigamePatch
+		private static class WeaponsMinigamePatch
 		{
 			[HarmonyPatch(nameof(WeaponsMinigame.Begin))]
 			[HarmonyPrefix]
-			static void BeginPrefix(WeaponsMinigame __instance)
+			private static void BeginPrefix(WeaponsMinigame __instance)
 			{
-				GameObject cursor = new GameObject("cursor");
+				GameObject cursor = new("cursor");
 				cursor.transform.SetParent(__instance.transform);
 				cursor.layer = 4;
 				CircleCollider2D circleCollider2D = cursor.AddComponent<CircleCollider2D>();
@@ -24,11 +24,11 @@ namespace CursedAmongUs.Source.Tasks
 		}
 
 		[HarmonyPatch(typeof(Asteroid))]
-		static class AsteroidPatch
+		private static class AsteroidPatch
 		{
 			[HarmonyPatch(nameof(Asteroid.Reset))]
 			[HarmonyPostfix]
-			static void AwakePostfix(Asteroid __instance)
+			private static void AwakePostfix(Asteroid __instance)
 			{
 				if (__instance.gameObject.GetComponent<Rigidbody2D>()) return;
 				Rigidbody2D rigidbody2D = __instance.gameObject.AddComponent<Rigidbody2D>();

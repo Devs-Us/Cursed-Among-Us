@@ -32,7 +32,7 @@ namespace CursedAmongUs
 			ClassInjector.RegisterTypeInIl2Cpp<Source.CursedGameData>();
 			ClassInjector.RegisterTypeInIl2Cpp<Source.Tasks.CursedWeapons.WeaponsCustom>();
 			ClassInjector.RegisterTypeInIl2Cpp<Source.Tasks.UploadDataCustom>();
-			GameObject cursedObject = new GameObject("CursedAmongUs");
+			GameObject cursedObject = new("CursedAmongUs");
 			Object.DontDestroyOnLoad(cursedObject);
 			_ = cursedObject.AddComponent<Source.CursedGameData>();
 		}

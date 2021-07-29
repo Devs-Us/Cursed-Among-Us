@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace CursedAmongUs.Source.Others
 {
-	static class CursedPalette
+	internal static class CursedPalette
 	{
 		[HarmonyPatch(typeof(CursedGameData))]
-		static class PalettePatch
+		private static class PalettePatch
 		{
 			[HarmonyPatch(nameof(CursedGameData.Start))]
 			[HarmonyPostfix]
-			static void StartPostfix()
+			private static void StartPostfix()
 			{
 				for (Int32 i = 0; i < 3; i++)
 				{

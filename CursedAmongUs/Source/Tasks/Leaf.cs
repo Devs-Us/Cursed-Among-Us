@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CursedAmongUs.Source.Tasks
 {
-	class CursedLeaf
+	internal class CursedLeaf
 	{
 		[HarmonyPatch(typeof(LeafMinigame))]
 		private static class LeafMinigamePatch
@@ -32,7 +32,7 @@ namespace CursedAmongUs.Source.Tasks
 					leafBehaviour.transform.localPosition = new Vector3(localPosition.x, localPosition.y, -1);
 					__instance.Leaves[i] = leafBehaviour.GetComponent<Collider2D>();
 				}
-				GameObject pointer = new GameObject("cursor");
+				GameObject pointer = new("cursor");
 				pointer.transform.SetParent(__instance.transform);
 				pointer.layer = 4;
 				CircleCollider2D collider2D = pointer.AddComponent<CircleCollider2D>();

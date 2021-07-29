@@ -24,7 +24,7 @@ namespace CursedAmongUs.Source.Tasks
 			{
 				Boolean CurrentState = __instance.redLight.color == Color.red;
 				if (PrevState == CurrentState || !CurrentState) return;
-				Int32 randomNumber = UnityEngine.Random.RandomRangeInt(0,50);
+				Int32 randomNumber = UnityEngine.Random.RandomRangeInt(0, 40);
 				if (randomNumber == 0) __instance.AcceptedTime = new FloatRange(0.25f, 2f);
 				else __instance.AcceptedTime = new FloatRange(0.5f, 0.5f);
 			}

@@ -1,5 +1,4 @@
 ﻿using System;
-using HarmonyLib;
 using UnityEngine;
 
 namespace CursedAmongUs.Source
@@ -8,21 +7,13 @@ namespace CursedAmongUs.Source
 	{
 		public CursedGameData(IntPtr ptr) : base(ptr) { }
 
-		public static Int32 WiresNum = 0;
-
 		public void Start()
 		{
 		}
 
-		[HarmonyPatch(typeof(ShipStatus))]
-		private static class ShipStatusPatch
+		public void Update()
 		{
-			[HarmonyPatch(nameof(ShipStatus.Start))]
-			[HarmonyPrefix]
-			private static void StartPrefix()
-			{
-				WiresNum = 0;
-			}
+			Others.CursedVent.Update();
 		}
 	}
 }
