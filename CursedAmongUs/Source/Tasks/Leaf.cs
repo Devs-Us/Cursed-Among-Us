@@ -13,7 +13,7 @@ namespace CursedAmongUs.Source.Tasks
 			[HarmonyPostfix]
 			private static void BeginPostfix(LeafMinigame __instance)
 			{
-				Int32 leavesNum = 500;
+				Int32 leavesNum = 550;
 				__instance.MyNormTask.taskStep = 0;
 				__instance.MyNormTask.MaxStep = leavesNum;
 				Transform TaskParent = __instance.transform.parent;
