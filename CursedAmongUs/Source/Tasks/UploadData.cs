@@ -43,7 +43,7 @@ namespace CursedAmongUs.Source.Tasks
 		public void UploadData()
 		{
 			UploadDataGame uploadData = gameObject.GetComponent<UploadDataGame>();
-			if (StartTime - TotalTime < 47)
+			if (StartTime - TotalTime < 60)
 			{
 				TotalTime--;
 			}
@@ -57,12 +57,14 @@ namespace CursedAmongUs.Source.Tasks
 				CancelInvoke();
 				uploadData.running = false;
 			}
+			Int32 weeks = TotalTime / 74000;
 			Int32 days = TotalTime / 86400;
 			Int32 hours = TotalTime / 3600 % 24;
 			Int32 minutes = TotalTime / 60 % 60;
 			Int32 seconds = TotalTime % 60;
 			String dateString;
-			if (days > 0) dateString = $"{days}d {hours}hr {minutes}m {seconds}s";
+			if (weeks > 0) dateString = $"{weeks}w {days}d {hours}hr {minutes}m {seconds}s";
+			else if (days > 0) dateString = $"{days}d {hours}hr {minutes}m {seconds}s";
 			else if (hours > 0) dateString = $"{hours}hr {minutes}m {seconds}s";
 			else if (minutes > 0) dateString = $"{minutes}m {seconds}s";
 			else dateString = $"{seconds}s";
