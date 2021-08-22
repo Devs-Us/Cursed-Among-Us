@@ -30,7 +30,7 @@ namespace CursedAmongUs.Source.Tasks
 					"\nWeight: 92 pounds" +
 					"\nColor: " + Palette.ColorNames[PlayerControl.LocalPlayer.Data.ColorId] +
 					"\nBlood Type: " + MedScanMinigame.BloodTypes[PlayerData.bloodType];
-				__instance.ScanDuration = 85f;
+				__instance.ScanDuration = 90f;
 			}
 		}
 
