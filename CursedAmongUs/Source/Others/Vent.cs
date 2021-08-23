@@ -6,7 +6,13 @@ namespace CursedAmongUs.Source.Others
 {
 	internal static class CursedVent
 	{
-		private static Single LastVent = 0f;
+		private static Single LastVent;
+
+		public static void Update()
+		{
+			if (!PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.inVent || LastVent <= 0f) return;
+			LastVent -= Time.deltaTime;
+		}
 
 		[HarmonyPatch(typeof(Vent))]
 		private static class VentPatch
@@ -19,12 +25,6 @@ namespace CursedAmongUs.Source.Others
 				__instance.Use();
 				LastVent = 10f;
 			}
-		}
-
-		public static void Update()
-		{
-			if (!PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.inVent || LastVent <= 0f) return;
-			LastVent -= Time.deltaTime;
 		}
 	}
 }

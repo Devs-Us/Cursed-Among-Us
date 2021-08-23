@@ -33,14 +33,13 @@ namespace CursedAmongUs.Source.Tasks
 				if (__instance.gameObject.GetComponent<Rigidbody2D>()) return;
 				Rigidbody2D rigidbody2D = __instance.gameObject.AddComponent<Rigidbody2D>();
 				rigidbody2D.gravityScale = 0f;
-
 			}
 		}
 
 		internal class WeaponsCustom : MonoBehaviour
 		{
-			public WeaponsCustom(IntPtr ptr) : base(ptr) { }
 			public WeaponsMinigame weaponsMinigame;
+			public WeaponsCustom(IntPtr ptr) : base(ptr) { }
 
 			public void Update()
 			{

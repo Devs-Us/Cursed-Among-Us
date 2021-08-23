@@ -1,12 +1,13 @@
 ﻿using System;
 using HarmonyLib;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace CursedAmongUs.Source.Tasks
 {
 	internal class CursedFixWiring
 	{
-		public static Int32 WiresNum = 0;
+		public static Int32 WiresNum;
 
 		public static Int32 NumWires = 4;
 
@@ -30,7 +31,7 @@ namespace CursedAmongUs.Source.Tasks
 			[HarmonyPrefix]
 			private static void BeginPrefix(WireMinigame __instance)
 			{
-				Int32[] WiresOrder = new Int32[3] { 8, 16, 70 };
+				Int32[] WiresOrder = new Int32[3] {8, 16, 70};
 				NumWires = WiresOrder[WiresNum];
 				ScalarY = NumWires < 12 ? 1f : (8f / NumWires) + 0.3f;
 				Transform ParentAll = GameObject.Find("Main Camera/WireMinigame(Clone)").transform;
@@ -47,22 +48,27 @@ namespace CursedAmongUs.Source.Tasks
 				Single positionY = 2.25f;
 				for (Int32 i = 0; i < NumWires; i++)
 				{
-					GameObject newGameObject = Helpers.BuildWire(ParentLeftNode.FindChild("LeftWireNode").gameObject, ref positionY);
-					for (Int32 j = 0; j < newGameObject.transform.childCount; j++) newGameObject.transform.GetChild(j).localScale = new Vector3(1f, ScalarY, 1f);
+					GameObject newGameObject = Helpers.BuildWire(ParentLeftNode.FindChild("LeftWireNode").gameObject,
+						ref positionY);
+					for (Int32 j = 0; j < newGameObject.transform.childCount; j++)
+						newGameObject.transform.GetChild(j).localScale = new Vector3(1f, ScalarY, 1f);
 					Transform headTransform = newGameObject.transform.FindChild("Head");
-					headTransform.localPosition = new Vector3(0.235f, headTransform.localPosition.y, headTransform.localPosition.z);
+					headTransform.localPosition = new Vector3(0.235f, headTransform.localPosition.y,
+						headTransform.localPosition.z);
 					headTransform.GetComponent<CircleCollider2D>().enabled = true;
 					headTransform.GetComponent<CircleCollider2D>().radius = (1.5f / NumWires) + 0.1f;
 					Wire wireComponent = newGameObject.GetComponent<Wire>();
 					wireComponent.enabled = true;
 					__instance.LeftNodes[i] = wireComponent;
 				}
+
 				Transform ParentRightNode = ParentAll.FindChild("RightWires").transform;
 				Helpers.DestroyObjects(ParentRightNode);
 				positionY = 2.25f;
 				for (Int32 i = 0; i < NumWires; i++)
 				{
-					GameObject newGameObject = Helpers.BuildWire(ParentRightNode.FindChild("RightWireNode").gameObject, ref positionY);
+					GameObject newGameObject = Helpers.BuildWire(ParentRightNode.FindChild("RightWireNode").gameObject,
+						ref positionY);
 					Transform headTransform = newGameObject.transform.FindChild("electricity_wiresBase1");
 					newGameObject.transform.localScale = new Vector3(1f, ScalarY, 1f);
 					headTransform.localPosition = new Vector3(0.145f, 0f, headTransform.localPosition.z);
@@ -72,6 +78,7 @@ namespace CursedAmongUs.Source.Tasks
 					wireComponent.enabled = true;
 					__instance.RightNodes[i] = wireComponent;
 				}
+
 				ParentAll.FindChild("LeftLights").gameObject.active = false;
 				ParentAll.FindChild("RightLights").gameObject.active = false;
 				for (Int32 i = 0; i < NumWires; i++)
@@ -96,13 +103,12 @@ namespace CursedAmongUs.Source.Tasks
 			{
 				Boolean flag = true;
 				for (Int32 i = 0; i < __instance.ActualWires.Length; i++)
-				{
 					if (__instance.ActualWires[i] != __instance.ExpectedWires[i])
 					{
 						flag = false;
 						break;
 					}
-				}
+
 				if (flag) WiresNum++;
 			}
 
@@ -115,8 +121,10 @@ namespace CursedAmongUs.Source.Tasks
 				for (Int32 i = 0; i < __instance.RightNodes.Length; i++)
 				{
 					WireNode wireNode = __instance.RightNodes[i];
-					if (wireNode.hitbox.OverlapPoint(pos) && __instance.ExpectedWires[leftId] == wireNode.WireId) __result = wireNode;
+					if (wireNode.hitbox.OverlapPoint(pos) && __instance.ExpectedWires[leftId] == wireNode.WireId)
+						__result = wireNode;
 				}
+
 				if (!__result) __result = null;
 				return false;
 			}
@@ -135,9 +143,11 @@ namespace CursedAmongUs.Source.Tasks
 					__instance.ColorBase.transform.localPosition = new Vector3(-0.3f, 0f, 1f);
 					return;
 				}
+
 				__instance.ColorBase.transform.localScale = new Vector3(7.8f, ScalarY, 1f);
 				__instance.ColorBase.transform.localPosition = new Vector3(-0.22f, 0f, 1f);
-				__instance.Liner.transform.localScale = new Vector3(__instance.Liner.transform.localScale.x, ScalarY, 1f);
+				__instance.Liner.transform.localScale =
+					new Vector3(__instance.Liner.transform.localScale.x, ScalarY, 1f);
 			}
 		}
 
@@ -146,8 +156,9 @@ namespace CursedAmongUs.Source.Tasks
 			public static GameObject BuildWire(GameObject prefab, ref Single positionY)
 			{
 				positionY -= 4.6f / (NumWires + 1);
-				GameObject newGameObject = UnityEngine.Object.Instantiate(prefab, prefab.transform.parent);
-				newGameObject.transform.localPosition = new Vector3(newGameObject.transform.localPosition.x, positionY, newGameObject.transform.localPosition.z);
+				GameObject newGameObject = Object.Instantiate(prefab, prefab.transform.parent);
+				newGameObject.transform.localPosition = new Vector3(newGameObject.transform.localPosition.x, positionY,
+					newGameObject.transform.localPosition.z);
 				newGameObject.transform.FindChild("BaseSymbol").gameObject.active = false;
 				return newGameObject;
 			}
@@ -158,7 +169,7 @@ namespace CursedAmongUs.Source.Tasks
 				{
 					GameObject childNode = parent.GetChild(i).gameObject;
 					if (!parent.GetChild(i).gameObject.name.Contains("WireNode")) continue;
-					UnityEngine.Object.Destroy(childNode);
+					Object.Destroy(childNode);
 				}
 			}
 		}
