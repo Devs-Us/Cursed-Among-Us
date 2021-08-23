@@ -1,4 +1,5 @@
 ﻿using System;
+using CursedAmongUs.Source.Others;
 using UnityEngine;
 
 namespace CursedAmongUs.Source
@@ -13,7 +14,7 @@ namespace CursedAmongUs.Source
 
 		public void Update()
 		{
-			Others.CursedVent.Update();
+			CursedVent.Update();
 		}
 	}
 }

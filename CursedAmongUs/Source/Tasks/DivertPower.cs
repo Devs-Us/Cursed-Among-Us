@@ -3,12 +3,14 @@ using System.Linq;
 using HarmonyLib;
 using Il2CppSystem.Text;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace CursedAmongUs.Source.Tasks
 {
 	internal class DivertPower
 	{
-		private static Boolean IsIntermission = false;
+		private static Boolean IsIntermission;
 
 		[HarmonyPatch(typeof(ShipStatus))]
 		private class ShipStatusPatch
@@ -20,6 +22,7 @@ namespace CursedAmongUs.Source.Tasks
 				IsIntermission = false;
 			}
 		}
+
 		[HarmonyPatch(typeof(NormalPlayerTask))]
 		private static class NormalPlayerTaskPatch
 		{
@@ -32,15 +35,18 @@ namespace CursedAmongUs.Source.Tasks
 				{
 					IsIntermission = false;
 					Transform arrowParent = __instance.Arrow.transform.parent;
-					for (Int32 i = 0; i < arrowParent.childCount; i++) UnityEngine.Object.Destroy(arrowParent.GetChild(i).gameObject);
+					for (Int32 i = 0; i < arrowParent.childCount; i++)
+						Object.Destroy(arrowParent.GetChild(i).gameObject);
 					return;
 				}
+
 				for (Int32 i = 0; i < 500; i++)
 				{
 					IsIntermission = true;
-					GameObject arrowObject = UnityEngine.Object.Instantiate(__instance.Arrow.gameObject, __instance.Arrow.transform.parent);
+					GameObject arrowObject =
+						Object.Instantiate(__instance.Arrow.gameObject, __instance.Arrow.transform.parent);
 					ArrowBehaviour arrorBehavior = arrowObject.GetComponent<ArrowBehaviour>();
-					arrorBehavior.target = new Vector2(UnityEngine.Random.RandomRange(-30f, 30f), UnityEngine.Random.RandomRange(-30f, 30f));
+					arrorBehavior.target = new Vector2(Random.RandomRange(-30f, 30f), Random.RandomRange(-30f, 30f));
 				}
 			}
 		}
@@ -53,7 +59,8 @@ namespace CursedAmongUs.Source.Tasks
 			private static Boolean AppendTaskTextPrefix(DivertPowerTask __instance, StringBuilder sb)
 			{
 				if (__instance.TaskStep == 0) _ = sb.AppendLine("Electrical: Divert Power (0/2)");
-				else if (__instance.TaskStep == 1) _ = sb.AppendLine("<color=#FFFF00FF>???????: Accept Diverted Power (1/2)</color>");
+				else if (__instance.TaskStep == 1)
+					_ = sb.AppendLine("<color=#FFFF00FF>???????: Accept Diverted Power (1/2)</color>");
 				else if (__instance.TaskStep == 2) return true;
 				else _ = sb.AppendLine("Electrical: Divert Power (0/2)");
 				return false;
@@ -88,10 +95,12 @@ namespace CursedAmongUs.Source.Tasks
 					{
 						Transform child = __instance.transform.GetChild(i);
 						if (!child.name.StartsWith("Divert") || !child.name.Contains("Power")) continue;
-						UnityEngine.Object.Destroy(child.gameObject);
+						Object.Destroy(child.gameObject);
 					}
+
 					return;
 				}
+
 				GameObject powerIndicator = default;
 				Transform mapIcons = __instance.transform;
 				if (mapIcons.childCount > 100)
@@ -102,8 +111,11 @@ namespace CursedAmongUs.Source.Tasks
 						if (!child.name.StartsWith("Divert") || !child.name.Contains("Power")) continue;
 						child.GetComponent<SpriteRenderer>().material.SetFloat("_Outline", 1f);
 					}
+
 					return;
-				};
+				}
+
+				;
 				for (Int32 i = 0; i < mapIcons.childCount; i++)
 				{
 					Transform child = mapIcons.GetChild(i);
@@ -111,14 +123,23 @@ namespace CursedAmongUs.Source.Tasks
 					powerIndicator = child.gameObject;
 					break;
 				}
+
 				if (powerIndicator.Equals(default)) return;
-				(Single x1, Single x2, Single y1, Single y2)[] mapBounds = { (-6.1f, 5f, -4.5f, 2f), (-4f, 7.4f, -1.3f, 5.5f), (0f, 0f, 0f, 0f), (-6.1f, 5f, -4.5f, 2f), (-4.5f, 6.5f, -3.5f, 3.2f) };
-				(Single x1, Single x2, Single y1, Single y2) mapBound = mapBounds[AmongUsClient.Instance.InOnlineScene ? PlayerControl.GameOptions.MapId : AmongUsClient.Instance.TutorialMapId];
+				(Single x1, Single x2, Single y1, Single y2)[] mapBounds =
+				{
+					(-6.1f, 5f, -4.5f, 2f), (-4f, 7.4f, -1.3f, 5.5f), (0f, 0f, 0f, 0f), (-6.1f, 5f, -4.5f, 2f),
+					(-4.5f, 6.5f, -3.5f, 3.2f)
+				};
+				(Single x1, Single x2, Single y1, Single y2) mapBound = mapBounds[
+					AmongUsClient.Instance.InOnlineScene
+						? PlayerControl.GameOptions.MapId
+						: AmongUsClient.Instance.TutorialMapId];
 				for (Int32 i = 0; i < 250; i++)
 				{
-					GameObject iconObject = UnityEngine.Object.Instantiate(powerIndicator, mapIcons);
+					GameObject iconObject = Object.Instantiate(powerIndicator, mapIcons);
 					iconObject.active = true;
-					iconObject.transform.localPosition = new Vector3(UnityEngine.Random.RandomRange(mapBound.x1, mapBound.x2), UnityEngine.Random.RandomRange(mapBound.y1, mapBound.y2), iconObject.transform.localPosition.z);
+					iconObject.transform.localPosition = new Vector3(Random.RandomRange(mapBound.x1, mapBound.x2),
+						Random.RandomRange(mapBound.y1, mapBound.y2), iconObject.transform.localPosition.z);
 				}
 			}
 		}

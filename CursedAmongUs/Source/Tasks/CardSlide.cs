@@ -1,6 +1,7 @@
 ﻿using System;
 using HarmonyLib;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace CursedAmongUs.Source.Tasks
 {
@@ -24,7 +25,7 @@ namespace CursedAmongUs.Source.Tasks
 			{
 				Boolean CurrentState = __instance.redLight.color == Color.red;
 				if (PrevState == CurrentState || !CurrentState) return;
-				Int32 randomNumber = UnityEngine.Random.RandomRangeInt(0, 40);
+				Int32 randomNumber = Random.RandomRangeInt(0, 40);
 				if (randomNumber == 0) __instance.AcceptedTime = new FloatRange(0.25f, 2f);
 				else __instance.AcceptedTime = new FloatRange(0.495f, 0.505f);
 			}

@@ -11,8 +11,6 @@ namespace CursedAmongUs.Source.Tasks
 	[HarmonyPatch(typeof(UnlockManifoldsMinigame))]
 	internal static class UnlockManifold
 	{
-		private delegate Boolean d_LoadImage(IntPtr texture, IntPtr data, Boolean markNonReadable);
-
 		private static d_LoadImage ICallLoadImage;
 
 		[HarmonyPatch(nameof(UnlockManifoldsMinigame.Begin))]
@@ -27,9 +25,11 @@ namespace CursedAmongUs.Source.Tasks
 			Il2CppStructArray<Byte> il2CPPArray = textureBytes;
 			_ = ICallLoadImage.Invoke(texture.Pointer, il2CPPArray.Pointer, false);
 			foreach (SpriteRenderer button in __instance.Buttons)
-			{
-				button.sprite = Sprite.Create(texture, new Rect(0f, 0f, button.sprite.rect.width, button.sprite.rect.height), new Vector2(0.5f, 0.5f), 100f);
-			}
+				button.sprite = Sprite.Create(texture,
+					new Rect(0f, 0f, button.sprite.rect.width, button.sprite.rect.height), new Vector2(0.5f, 0.5f),
+					100f);
 		}
+
+		private delegate Boolean d_LoadImage(IntPtr texture, IntPtr data, Boolean markNonReadable);
 	}
 }
