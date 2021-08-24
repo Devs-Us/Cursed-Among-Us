@@ -15,7 +15,7 @@ namespace CursedAmongUs.Source.Tasks
 	{
 		private static Boolean _isIntermission;
 		private static readonly Int32 Outline = Shader.PropertyToID("_Outline");
-		private static IEnumerable<PlayerTask> PlayerTasksArray => PlayerControl.LocalPlayer?.myTasks?.ToArray();
+		private static PlayerTask[] PlayerTasksArray => PlayerControl.LocalPlayer.myTasks?.ToArray();
 
 		[HarmonyPatch(typeof(ShipStatus))]
 		private class ShipStatusPatch
