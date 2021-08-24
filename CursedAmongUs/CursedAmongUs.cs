@@ -11,14 +11,13 @@ using Object = UnityEngine.Object;
 
 namespace CursedAmongUs
 {
-	[BepInPlugin("DevsUs.CursedAmongUs", "CursedAmongUs", Version)]
+	[BepInPlugin(Id)]
 	[BepInProcess("Among Us.exe")]
 	[BepInDependency(ReactorPlugin.Id)]
 	public class CursedAmongUs : BasePlugin
 	{
-		public const String Version = "v1.0.0";
-
-		public Harmony Harmony { get; } = new("DevsUs.CursedAmongUs");
+		public const String Id = "DevsUs.CursedAmongUs";
+		public Harmony Harmony { get; } = new(Id);
 
 		public override void Load()
 		{
