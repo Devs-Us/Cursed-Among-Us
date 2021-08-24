@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using Il2CppSystem.Text;
+using Reactor;
+using Reactor.Extensions;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -10,7 +13,9 @@ namespace CursedAmongUs.Source.Tasks
 {
 	internal class DivertPower
 	{
-		private static Boolean IsIntermission;
+		private static Boolean _isIntermission;
+		private static readonly Int32 Outline = Shader.PropertyToID("_Outline");
+		private static IEnumerable<PlayerTask> PlayerTasksArray => PlayerControl.LocalPlayer?.myTasks?.ToArray();
 
 		[HarmonyPatch(typeof(ShipStatus))]
 		private class ShipStatusPatch
@@ -19,7 +24,7 @@ namespace CursedAmongUs.Source.Tasks
 			[HarmonyPrefix]
 			private static void StartPrefix()
 			{
-				IsIntermission = false;
+				_isIntermission = false;
 			}
 		}
 
@@ -31,22 +36,32 @@ namespace CursedAmongUs.Source.Tasks
 			private static void NextStepPostfix(NormalPlayerTask __instance)
 			{
 				if (__instance.TaskType != TaskTypes.DivertPower) return;
-				if (__instance.taskStep == 2)
+				
+				if (PlayerTasksArray.Count(x => x.TaskType == 
+					TaskTypes.DivertPower && !x.IsComplete) == 0)
 				{
-					IsIntermission = false;
+					_isIntermission = false;
+				}
+
+				if (__instance.taskStep == __instance.MaxStep)
+				{
 					Transform arrowParent = __instance.Arrow.transform.parent;
 					for (Int32 i = 0; i < arrowParent.childCount; i++)
-						Object.Destroy(arrowParent.GetChild(i).gameObject);
+					{
+						if (arrowParent.GetChild(i))
+							Object.Destroy(arrowParent.GetChild(i).gameObject);
+					}
+
 					return;
 				}
 
 				for (Int32 i = 0; i < 500; i++)
 				{
-					IsIntermission = true;
+					_isIntermission = true;
 					GameObject arrowObject =
 						Object.Instantiate(__instance.Arrow.gameObject, __instance.Arrow.transform.parent);
-					ArrowBehaviour arrorBehavior = arrowObject.GetComponent<ArrowBehaviour>();
-					arrorBehavior.target = new Vector2(Random.RandomRange(-30f, 30f), Random.RandomRange(-30f, 30f));
+					ArrowBehaviour arrowBehavior = arrowObject.GetComponent<ArrowBehaviour>();
+					arrowBehavior.target = new Vector2(Random.RandomRange(-30f, 30f), Random.RandomRange(-30f, 30f));
 				}
 			}
 		}
@@ -58,11 +73,23 @@ namespace CursedAmongUs.Source.Tasks
 			[HarmonyPrefix]
 			private static Boolean AppendTaskTextPrefix(DivertPowerTask __instance, StringBuilder sb)
 			{
-				if (__instance.TaskStep == 0) _ = sb.AppendLine("Electrical: Divert Power (0/2)");
-				else if (__instance.TaskStep == 1)
-					_ = sb.AppendLine("<color=#FFFF00FF>???????: Accept Diverted Power (1/2)</color>");
-				else if (__instance.TaskStep == 2) return true;
-				else _ = sb.AppendLine("Electrical: Divert Power (0/2)");
+				String divertLocation = DestroyableSingleton<TranslationController>.Instance
+					.GetString(__instance.StartAt);
+				switch (__instance.TaskStep)
+				{
+					case 0:
+						_ = sb.AppendLine($"{divertLocation}: Divert Power (0/2)");
+						break;
+					case 1:
+						_ = sb.AppendLine("<color=yellow>???????: Accept Diverted Power (1/2)</color>");
+						break;
+					case 2:
+						return true;
+					default:
+						_ = sb.AppendLine($"{divertLocation}: Divert Power (0/2)");
+						break;
+				}
+
 				return false;
 			}
 		}
@@ -75,7 +102,8 @@ namespace CursedAmongUs.Source.Tasks
 			private static void BeginPrefix(DivertPowerMinigame __instance)
 			{
 				System.Random random = new();
-				__instance.Sliders = __instance.Sliders.OrderBy(x => random.Next()).ToArray();
+				__instance.SliderOrder = __instance.SliderOrder
+					.OrderBy(x => random.Next()).ToArray();
 			}
 		}
 
@@ -86,55 +114,60 @@ namespace CursedAmongUs.Source.Tasks
 			[HarmonyPostfix]
 			private static void ShowPostfix(MapTaskOverlay __instance)
 			{
-				if (!IsIntermission)
+				Int32 divertTasks = PlayerTasksArray.Count(x => x.TaskType is TaskTypes.DivertPower);
+				if (!_isIntermission)
 				{
-					Debug.logger.Log("Intermission1");
+					Logger<CursedAmongUs>.Debug("Checking child count");
 					if (__instance.transform.childCount <= 100) return;
-					Debug.logger.Log("Intermission2");
+					Logger<CursedAmongUs>.Debug("Attempting to destroy children");
+
 					for (Int32 i = 0; i < __instance.transform.childCount; i++)
 					{
 						Transform child = __instance.transform.GetChild(i);
-						if (!child.name.StartsWith("Divert") || !child.name.Contains("Power")) continue;
-						Object.Destroy(child.gameObject);
+						if (!child || !child.name.StartsWith("Divert") || !child.name.Contains("Power")) continue;
+						child.gameObject.Destroy();
 					}
 
+					Debug.logger.Log("Children destroyed successfully (and legally)");
+					
 					return;
 				}
 
 				GameObject powerIndicator = default;
 				Transform mapIcons = __instance.transform;
+				
 				if (mapIcons.childCount > 100)
 				{
 					for (Int32 i = 0; i < mapIcons.childCount; i++)
 					{
 						Transform child = mapIcons.GetChild(i);
-						if (!child.name.StartsWith("Divert") || !child.name.Contains("Power")) continue;
-						child.GetComponent<SpriteRenderer>().material.SetFloat("_Outline", 1f);
+						if (!child || !child.name.StartsWith("Divert") || !child.name.Contains("Power")) continue;
+						child.GetComponent<SpriteRenderer>().material.SetFloat(Outline, 1f);
 					}
-
 					return;
 				}
 
-				;
 				for (Int32 i = 0; i < mapIcons.childCount; i++)
 				{
 					Transform child = mapIcons.GetChild(i);
-					if (!child.name.StartsWith("Divert") || !child.name.Contains("Power")) continue;
+					if (!child || !child.name.StartsWith("Divert") || !child.name.Contains("Power")) continue;
 					powerIndicator = child.gameObject;
 					break;
 				}
 
-				if (powerIndicator.Equals(default)) return;
+				if (powerIndicator && powerIndicator.Equals(default)) return;
 				(Single x1, Single x2, Single y1, Single y2)[] mapBounds =
 				{
 					(-6.1f, 5f, -4.5f, 2f), (-4f, 7.4f, -1.3f, 5.5f), (0f, 0f, 0f, 0f), (-6.1f, 5f, -4.5f, 2f),
 					(-4.5f, 6.5f, -3.5f, 3.2f)
 				};
+				
 				(Single x1, Single x2, Single y1, Single y2) mapBound = mapBounds[
 					AmongUsClient.Instance.InOnlineScene
 						? PlayerControl.GameOptions.MapId
 						: AmongUsClient.Instance.TutorialMapId];
-				for (Int32 i = 0; i < 250; i++)
+				
+				for (Int32 i = 0; i < 250 * divertTasks; i++)
 				{
 					GameObject iconObject = Object.Instantiate(powerIndicator, mapIcons);
 					iconObject.active = true;
