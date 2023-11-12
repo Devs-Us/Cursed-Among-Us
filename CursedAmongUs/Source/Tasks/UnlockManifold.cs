@@ -1,6 +1,9 @@
 ﻿using CursedAmongUs.Source.Others;
 using HarmonyLib;
 using UnityEngine;
+using TMPro;
+using System;
+using Microsoft.CodeAnalysis;
 
 namespace CursedAmongUs.Source.Tasks
 {
@@ -12,7 +15,9 @@ namespace CursedAmongUs.Source.Tasks
 		private static void BeginPrefix(UnlockManifoldsMinigame __instance)
 		{
 			foreach (SpriteRenderer button in __instance.Buttons)
+			{
 				button.sprite = SpriteHelper.CreateSpriteFromResources("UnlockManifold.png");
+			}
 		}
 	}
 }

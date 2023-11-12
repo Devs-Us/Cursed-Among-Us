@@ -26,13 +26,13 @@ namespace CursedAmongUs.Source.Tasks
 				}
 
 				__instance.completeString =
-					"Player Identity: " + Palette.ColorNames[PlayerControl.LocalPlayer.Data.ColorId] + "Player" +
+					"Player Identity: " + PlayerControl.LocalPlayer.Data.ColorName + " Player " +
 					PlayerData.id +
 					"\nIdentification Number: " + PlayerData.id +
-					"\nPlayer Name: " + PlayerControl.LocalPlayer.nameText.text +
+					"\nPlayer Name: " + PlayerControl.LocalPlayer.cosmetics.nameText.text +
 					"\nHeight: 3 feet, 6 inches" +
 					"\nWeight: 92 pounds" +
-					"\nColor: " + Palette.ColorNames[PlayerControl.LocalPlayer.Data.ColorId] +
+					"\nColor: " + $"{PlayerControl.LocalPlayer.Data.ColorName} " +
 					"\nBlood Type: " + MedScanMinigame.BloodTypes[PlayerData.bloodType];
 				__instance.ScanDuration = 90f;
 			}

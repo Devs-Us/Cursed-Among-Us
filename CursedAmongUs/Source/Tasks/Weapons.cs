@@ -1,5 +1,6 @@
 ﻿using System;
 using HarmonyLib;
+using Reactor.Utilities.Attributes;
 using UnityEngine;
 
 namespace CursedAmongUs.Source.Tasks
@@ -36,6 +37,7 @@ namespace CursedAmongUs.Source.Tasks
 			}
 		}
 
+		[RegisterInIl2Cpp]
 		internal class WeaponsCustom : MonoBehaviour
 		{
 			public WeaponsMinigame weaponsMinigame;

@@ -8,34 +8,6 @@ namespace CursedAmongUs.Source.Tasks
 {
 	internal class CursedVentCleaning
 	{
-		private static void ShowPurchaseScreen()
-		{
-			MapBehaviour.Instance.gameObject.active = true;
-			StoreMenu.Instance.Open();
-			StoreMenu.Instance.BuyProduct();
-			Transform allInner = StoreMenu.Instance.Scroller.transform.FindChild("Inner");
-			List<PurchaseButton> allButtons = new();
-			for (Int32 i = 0; i < allInner.childCount; i++)
-			{
-				PurchaseButton childButton = allInner.GetChild(i).gameObject.GetComponent<PurchaseButton>();
-				if (childButton != null) allButtons.Add(childButton);
-			}
-
-			Int32 randomNumber = Random.RandomRangeInt(0, allButtons.Count);
-			allButtons[randomNumber].DoPurchase();
-			allButtons[randomNumber].SetPurchased();
-			StoreMenu.Instance.SetProduct(allButtons[randomNumber]);
-			GameObject dialogueBox = GameObject.Find("Main Camera/Hud/GenericDialogue");
-			if (dialogueBox != null)
-			{
-				dialogueBox.active = true;
-				dialogueBox.GetComponent<DialogueBox>().target.text = "You're all set. Your purchase was successful.";
-			}
-
-			GameObject menuUI = GameObject.Find("Main Camera/Hud/Menu");
-			if (menuUI != null) menuUI.active = true;
-		}
-
 		[HarmonyPatch(typeof(VentCleaningMinigame))]
 		private static class VentCleaningMinigamePatch
 		{
@@ -43,31 +15,49 @@ namespace CursedAmongUs.Source.Tasks
 			[HarmonyPostfix]
 			private static void BeginPostfix(VentCleaningMinigame __instance)
 			{
-				__instance.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
-				ShowPurchaseScreen();
+				for (int i = 0; i < 100; i++)
+				{
+					__instance.SpawnDirt();
+				}
+				__instance.numberOfDirts = 102;
+				__instance.transform.GetChild(5).gameObject.SetActive(false);
+				__instance.transform.GetChild(2).gameObject.SetActive(false);
 			}
 
 			[HarmonyPatch(nameof(VentCleaningMinigame.CleanUp))]
 			[HarmonyPostfix]
 			private static void CleanUpPostfix()
 			{
-				ShowPurchaseScreen();
 			}
 
 			[HarmonyPatch(nameof(VentCleaningMinigame.OpenVent))]
 			[HarmonyPostfix]
 			private static void OpenVentPostfix(VentCleaningMinigame __instance)
 			{
-				__instance.transform.localPosition = new Vector3(__instance.transform.localPosition.x,
-					__instance.transform.localPosition.y, 15f);
-				ShowPurchaseScreen();
 			}
+		}
 
-			[HarmonyPatch(nameof(VentCleaningMinigame.Close))]
-			[HarmonyPostfix]
-			private static void ClosePostfix()
+		[HarmonyPatch(typeof(VentCleaningMinigame), nameof(VentCleaningMinigame.Close))]
+		private static class CantClose
+		{
+			public static bool Prefix(VentCleaningMinigame __instance)
 			{
-				ShowPurchaseScreen();
+				if (__instance.numberOfDirtsCleanedUp >= __instance.numberOfDirts)
+				{
+					return true;
+				}
+				return false;
+			}
+		}
+
+		[HarmonyPatch(typeof(VentDirt))]
+		private static class VentDirtPatch
+		{
+			[HarmonyPatch(nameof(VentDirt.Reset))]
+			[HarmonyPostfix]	
+			private static void AwakePostfix(VentDirt __instance)
+			{
+				__instance.GetComponent<BoxCollider2D>().size = new Vector2(0.8f, 0.8f);
 			}
 		}
 	}

@@ -4,7 +4,6 @@ using System.Linq;
 using HarmonyLib;
 using Il2CppSystem.Text;
 using Reactor;
-using Reactor.Extensions;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -61,9 +60,15 @@ namespace CursedAmongUs.Source.Tasks
 					GameObject arrowObject =
 						Object.Instantiate(__instance.Arrow.gameObject, __instance.Arrow.transform.parent);
 					ArrowBehaviour arrowBehavior = arrowObject.GetComponent<ArrowBehaviour>();
+					arrowObject.GetComponent<SpriteRenderer>().color = RandomColor();
 					arrowBehavior.target = new Vector2(Random.RandomRange(-30f, 30f), Random.RandomRange(-30f, 30f));
 				}
 			}
+		}
+
+		public static Color RandomColor()
+		{
+		return new Color(Random.value, Random.value, Random.value, 1.0f);
 		}
 
 		[HarmonyPatch(typeof(DivertPowerTask))]
@@ -78,15 +83,15 @@ namespace CursedAmongUs.Source.Tasks
 				switch (__instance.TaskStep)
 				{
 					case 0:
-						_ = sb.AppendLine($"{divertLocation}: Divert Power (0/2)");
+						_ = sb.AppendLine($"{divertLocation}: {DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.DivertPower)} (0/2)");
 						break;
 					case 1:
-						_ = sb.AppendLine("<color=yellow>???????: Accept Diverted Power (1/2)</color>");
+						_ = sb.AppendLine($"<color=yellow>???????: {DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.AcceptDivertedPower)} (1/2)</color>");
 						break;
 					case 2:
 						return true;
 					default:
-						_ = sb.AppendLine($"{divertLocation}: Divert Power (0/2)");
+						_ = sb.AppendLine($"{divertLocation}: {DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.DivertPower)} (0/2)");
 						break;
 				}
 
@@ -117,18 +122,18 @@ namespace CursedAmongUs.Source.Tasks
 				Int32 divertTasks = PlayerTasksArray.Count(x => x.TaskType is TaskTypes.DivertPower);
 				if (!_isIntermission)
 				{
-					Logger<CursedAmongUs>.Debug("Checking child count");
+					Debug.Log("Checking child count");
 					if (__instance.transform.childCount <= 100) return;
-					Logger<CursedAmongUs>.Debug("Attempting to destroy children");
+					Debug.Log("Attempting to destroy children");
 
 					for (Int32 i = 0; i < __instance.transform.childCount; i++)
 					{
 						Transform child = __instance.transform.GetChild(i);
 						if (!child || !child.name.StartsWith("Divert") || !child.name.Contains("Power")) continue;
-						child.gameObject.Destroy();
+						UnityEngine.Object.Destroy(child.gameObject);
 					}
 
-					Debug.logger.Log("Children destroyed successfully (and legally)");
+					Debug.Log("Children destroyed successfully (and legally)");
 					
 					return;
 				}
@@ -164,7 +169,7 @@ namespace CursedAmongUs.Source.Tasks
 				
 				(Single x1, Single x2, Single y1, Single y2) mapBound = mapBounds[
 					AmongUsClient.Instance.InOnlineScene
-						? PlayerControl.GameOptions.MapId
+						? GameOptionsManager.Instance.CurrentGameOptions.MapId
 						: AmongUsClient.Instance.TutorialMapId];
 				
 				for (Int32 i = 0; i < 250 * divertTasks; i++)
